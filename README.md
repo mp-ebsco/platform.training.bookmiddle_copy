@@ -1,4 +1,4 @@
-# Book Service
+# Book Middle Service
 
 Simple spring-boot spring-web API demonstrating creation of a REST Spring Boot middle service
 
