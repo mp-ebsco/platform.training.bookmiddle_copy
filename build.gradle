@@ -1,0 +1,125 @@
+buildscript {
+
+    ext {
+        jfrogBuildInfoPluginVersion = '4.4.12'
+        springBootVersion = '1.5.6.RELEASE'
+    }
+
+    repositories {
+        maven {
+            url 'https://eis.jfrog.io/eis/plugins-release'
+            credentials {
+                username = project.artifactory_user
+                password = project.artifactory_password
+            }
+        }
+    }
+
+    dependencies {
+
+        // The dependency management plugin changes Gradle’s handling of a pom’s exclusions so that they behave as they do in Maven.
+        // https://spring.io/blog/2015/02/23/better-dependency-management-for-gradle
+        classpath "io.spring.gradle:dependency-management-plugin:0.6.0.RELEASE"
+        classpath "org.jfrog.buildinfo:build-info-extractor-gradle:${jfrogBuildInfoPluginVersion}"
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
+plugins {
+
+    // core plugins
+    id 'java'
+    id 'eclipse'
+    id 'maven'
+    id 'idea'
+
+    // Spring plugins
+    id "io.spring.dependency-management" version "0.6.0.RELEASE"
+
+    // JFrog Artifactory plugins
+    id "com.jfrog.artifactory" version "4.4.0"
+    id 'org.springframework.boot' version '1.5.6.RELEASE'
+}
+
+// Compilation settings
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+ext {
+
+    groupId					= 'com.ebsco.platform.training'
+    artifactId				= 'bookmiddle'
+    versionNumber			= '0.0.1-SNAPSHOT'
+    swaggerVersion 			= '2.7.0'
+    jacksonVersion 			= '2.8.5'
+}
+
+allprojects {
+    apply plugin: "com.jfrog.artifactory"
+    apply plugin: 'application'
+}
+
+artifactory {
+    //The base Artifactory URL if not overridden by the publisher/resolver
+    contextUrl = project.artifactory_contextUrl
+    resolve {
+        repository {
+            repoKey = 'libs-release'
+            username = project.artifactory_user
+            password = project.artifactory_password
+        }
+    }
+    publish {
+        repository {
+            repoKey = 'libs-release-local'
+            username = project.artifactory_user
+            password = project.artifactory_password
+            maven = true
+
+        }
+    }
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "com.ebsco.starter:ebsco-starter-spring-boot:2.0.0.RELEASE"
+    }
+}
+
+dependencies {
+    // EBSCO Libraries
+
+    // Spring-Boot dependencies
+    compile('org.springframework.boot:spring-boot-starter-actuator')
+    compile('org.springframework.boot:spring-boot-starter-web')
+
+    // Swagger dependencies
+    compile group:'io.springfox', name: 'springfox-swagger2', 	version:"${project.ext['swaggerVersion']}", transitive: true
+    compile group:'io.springfox', name: 'springfox-swagger-ui', version:"${project.ext['swaggerVersion']}", transitive: true
+
+    // Jackson Dependencies
+    compile group: 'com.fasterxml.jackson.module', 		name: 'jackson-module-parameter-names', version: "${project.ext['jacksonVersion']}", transitive: true
+    compile group: 'com.fasterxml.jackson.datatype', 	name: 'jackson-datatype-jdk8', 			version: "${project.ext['jacksonVersion']}", transitive: true
+    compile group: 'com.fasterxml.jackson.datatype', 	name: 'jackson-datatype-jsr310',		version: "${project.ext['jacksonVersion']}", transitive: true
+}
+
+bootRun {
+    // support passing -Dsystem.property=value to bootRun task
+    systemProperties = System.properties
+}
+
+task bootRunWindows(type:Exec) {
+    //to execute use gradle -PappVars="['-DcontextPath=/helloworld', '-Dservice.port=8082']" bootRunWindows
+    dependsOn build
+    workingDir 'build/libs'
+    executable "java"
+    if (project.hasProperty("appVars")) {
+        args Eval.me(appVars)
+        args args
+    }
+    args "-jar", "${artifactId}-${versionNumber}.jar"
+}
+
+run{
+    mainClassName = "com.ebsco.training.bookmiddle.BookApplication"
+}
