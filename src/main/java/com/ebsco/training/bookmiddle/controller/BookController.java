@@ -9,6 +9,8 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +29,8 @@ import java.util.Optional;
 @Api("v1 - book")
 public class BookController {
 
+    private static final Logger logger = LoggerFactory.getLogger(BookController.class);
+
     @Autowired
     private BookService bookService;
 
@@ -43,7 +47,9 @@ public class BookController {
             @ApiResponse(code = 500, message = "INTERNAL SERVER ERROR")
     })
     public ResponseEntity<List<BookDto>> getBooks() {
-        return new ResponseEntity(bookService.getBooks(), HttpStatus.OK);
+        List<BookDto> books = bookService.getBooks();
+        logger.debug("Get Books endpoint returning: {} books", books.size());
+        return new ResponseEntity(books, HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{id}")
