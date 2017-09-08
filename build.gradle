@@ -83,6 +83,7 @@ artifactory {
 dependencyManagement {
     imports {
         mavenBom "com.ebsco.starter:ebsco-starter-spring-boot:2.0.0.RELEASE"
+        mavenBom "org.springframework.cloud:spring-cloud-netflix:1.3.4.RELEASE"
     }
 }
 
@@ -92,6 +93,9 @@ dependencies {
     // Spring-Boot dependencies
     compile('org.springframework.boot:spring-boot-starter-actuator')
     compile('org.springframework.boot:spring-boot-starter-web')
+
+    // Spring-Cloud dependencies
+    compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-eureka'
 
     // Swagger dependencies
     compile group:'io.springfox', name: 'springfox-swagger2', 	version:"${project.ext['swaggerVersion']}", transitive: true
