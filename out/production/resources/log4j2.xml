@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration monitorInterval="60">
+    <Properties>
+        <Property name="log-path">logs</Property>
+        <Property name="archive">${log-path}/archive</Property>
+    </Properties>
+    <Appenders>
+        <Console name="Console-Appender" target="SYSTEM_OUT">
+            <StandardJsonLayout />
+        </Console>
+        <RollingFile name="RollingFile-Appender" fileName="${log-path}/application.log"
+                     filePattern="${archive}/application.log.%d{yyyy-MM-dd-hh-mm}.gz">
+            <StandardJsonLayout />
+            <Policies>
+                <TimeBasedTriggeringPolicy />
+                <SizeBasedTriggeringPolicy size="50 MB" />
+            </Policies>
+            <DefaultRolloverStrategy max="7" />
+        </RollingFile>
+    </Appenders>
+    <Loggers>
+        <AsyncLogger name="platform.shared" level="info" additivity="false">
+            <AppenderRef ref="Console-Appender"  />
+            <AppenderRef ref="RollingFile-Appender" />
+        </AsyncLogger>
+        <Root level="info">
+            <AppenderRef ref="Console-Appender" />
+            <AppenderRef ref="RollingFile-Appender" />
+        </Root>
+    </Loggers>
+</Configuration>
