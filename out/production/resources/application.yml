@@ -1,7 +1,7 @@
 spring:
   application:
-    name: ${vipAddress:bookmiddle}
-    version: ${APP_VERSION:1.0.0}
+    name: platform.training.bookmiddle
+    version: 1.0.0
   jackson:
     default-property-inclusion: non_null
 
