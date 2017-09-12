@@ -8,8 +8,8 @@ Simple spring-boot spring-web API demonstrating creation of a REST Spring Boot m
 
 ## Run
 
-`$ gradle bootRun`
+`$ gradle -Dspring.profiles.active=local bootRun`
 
 ## Explore
 
-Navigate to http://localhost:8080/books from a browser or Postman.
+Go to http://localhost:8080/books from a browser or Postman.
