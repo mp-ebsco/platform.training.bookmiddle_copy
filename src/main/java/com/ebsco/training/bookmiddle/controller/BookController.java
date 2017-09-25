@@ -32,7 +32,7 @@ public class BookController {
     @RequestMapping(method = RequestMethod.GET)
     @ApiOperation(value = "Get All Books")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "ACCEPT", value = "ACCEPT", defaultValue = "application/json", required = true, dataType = "string", paramType = "header")})
+            @ApiImplicitParam(name = "ACCEPT", value = "ACCEPT", defaultValue = "application/json", required = false, dataType = "string", paramType = "header")})
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK", responseContainer = "List", response = BookDto.class),
             @ApiResponse(code = 400, message = "BAD_REQUEST"),
@@ -48,7 +48,7 @@ public class BookController {
     @RequestMapping(method = RequestMethod.GET, value = "/{id}")
     @ApiOperation(value = "Get Book by ID")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "ACCEPT", value = "ACCEPT", defaultValue = "application/json", required = true, dataType = "string", paramType = "header")})
+            @ApiImplicitParam(name = "ACCEPT", value = "ACCEPT", defaultValue = "application/json", required = false, dataType = "string", paramType = "header")})
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK", responseContainer = "List", response = BookDto.class),
             @ApiResponse(code = 400, message = "BAD_REQUEST"),
@@ -69,7 +69,7 @@ public class BookController {
     @RequestMapping(method = RequestMethod.POST)
     @ApiOperation(value = "Create Book")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "ACCEPT", value = "ACCEPT", defaultValue = "application/json", required = true, dataType = "string", paramType = "header")})
+            @ApiImplicitParam(name = "ACCEPT", value = "ACCEPT", defaultValue = "application/json", required = false, dataType = "string", paramType = "header")})
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "CREATED"),
             @ApiResponse(code = 204, message = "NO_CONTENT"),
@@ -85,7 +85,7 @@ public class BookController {
     @RequestMapping(method = RequestMethod.PUT, value = "/{id}")
     @ApiOperation(value = "Update a pre-existing book by ID")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "ACCEPT", value = "ACCEPT", defaultValue = "application/json", required = true, dataType = "string", paramType = "header")})
+            @ApiImplicitParam(name = "ACCEPT", value = "ACCEPT", defaultValue = "application/json", required = false, dataType = "string", paramType = "header")})
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK"),
             @ApiResponse(code = 201, message = "CREATED"),
