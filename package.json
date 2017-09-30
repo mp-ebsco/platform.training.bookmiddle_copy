@@ -1,0 +1,25 @@
+{
+  "name": "platform.training.bookmiddle",
+  "version": "1.0.0",
+  "description": "E2E tests for the platform.training.bookmiddle service",
+  "main": "index.js",
+  "scripts": {
+    "test": "./node_modules/mocha/bin/mocha src/test/e2e/*.js",
+    "test:watch": "npm run test -- --watch",
+    "lint": "eslint src/test/e2e/**/*.js"
+  },
+  "author": {
+    "name": "Michael Panson",
+    "email": "mpanson@ebsco.com"
+  },
+  "devDependencies": {
+    "babel-eslint": "^8.0.1",
+    "babel-preset-es2015": "^6.24.1",
+    "chai": "^4.1.2",
+    "eslint": "^4.8.0",
+    "eslint-watch": "^3.1.2",
+    "mocha": "^3.5.3",
+    "supertest": "^3.0.0"
+  },
+  "license": "UNLICENSED"
+}
