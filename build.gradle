@@ -39,6 +39,9 @@ plugins {
     // JFrog Artifactory plugins
     id "com.jfrog.artifactory" version "4.4.0"
     id 'org.springframework.boot' version '1.5.6.RELEASE'
+
+    // Test Coverage
+    id "jacoco"
 }
 
 // Compilation settings
@@ -101,11 +104,38 @@ dependencies {
     compile group: 'com.fasterxml.jackson.module', 		name: 'jackson-module-parameter-names', version: "${project.ext['jacksonVersion']}", transitive: true
     compile group: 'com.fasterxml.jackson.datatype', 	name: 'jackson-datatype-jdk8', 			version: "${project.ext['jacksonVersion']}", transitive: true
     compile group: 'com.fasterxml.jackson.datatype', 	name: 'jackson-datatype-jsr310',		version: "${project.ext['jacksonVersion']}", transitive: true
+
+    testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: "${springBootVersion}"
+    testCompile group: 'com.github.tomakehurst', name: 'wiremock-standalone', version: '2.8.0'
+
 }
 
 bootRun {
     // support passing -Dsystem.property=value to bootRun task
     systemProperties = System.properties
+}
+
+jacocoTestReport {
+    dependsOn test
+    afterEvaluate {
+        classDirectories = files(classDirectories.files.collect {
+            fileTree(dir: it,
+                    // Exclude BookApplication.java since it doesn't contain meaningful code
+                    exclude: ['**/BookApplication.class'])
+        })
+    }
+}
+
+jacocoTestCoverageVerification {
+    dependsOn test
+    violationRules {
+        rule {
+            element = 'PACKAGE'
+            limit {
+                minimum = 0.25
+            }
+        }
+    }
 }
 
 run{
