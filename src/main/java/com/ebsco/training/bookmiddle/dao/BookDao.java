@@ -17,7 +17,7 @@ public class BookDao {
     private Integer idCounter = 1;
 
     public List<BookDto> getBooks() {
-        return new ArrayList<BookDto>(booksById.values());
+        return new ArrayList(booksById.values());
     }
 
     public Optional<BookDto> getBookById(String id) {
