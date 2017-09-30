@@ -20,3 +20,7 @@ out/
 *.iml
 *.ipr
 *.iws
+
+# npm stuff
+node_modules/
+package-lock.json
