@@ -112,18 +112,6 @@ bootRun {
     systemProperties = System.properties
 }
 
-task bootRunWindows(type:Exec) {
-    //to execute use gradle -PappVars="['-DcontextPath=/helloworld', '-Dservice.port=8082']" bootRunWindows
-    dependsOn build
-    workingDir 'build/libs'
-    executable "java"
-    if (project.hasProperty("appVars")) {
-        args Eval.me(appVars)
-        args args
-    }
-    args "-jar", "${artifactId}-${versionNumber}.jar"
-}
-
 run{
     mainClassName = "com.ebsco.training.bookmiddle.BookApplication"
 }
