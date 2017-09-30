@@ -2,7 +2,7 @@ buildscript {
 
     ext {
         jfrogBuildInfoPluginVersion = '4.4.12'
-        springBootVersion = '1.5.6.RELEASE'
+        springBootVersion = '1.5.7.RELEASE'
     }
 
     repositories {
