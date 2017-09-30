@@ -2,16 +2,16 @@
 
 Simple spring-boot spring-web API demonstrating creation of a REST Spring Boot middle service
 
-The repo contains multiple branches, each focused on an implementation:
+The repo contains multiple branches, each focused on a feature:
 
-| Branch                 | Feature                                          |
-| ---------------------- | ------------------------------------------------ |
-| master                 | Add Spring-Web REST API                          |
-| logging                | Configure log4j2 Logging                         |
-| test-junit             | Add Unit and Integration Tests (Java/JUnit)      |
-| test-e2e               | Add End-to-end API Tests (Javascript/Mocha/Chai) |
-| configuration          | Add Spring Configuration and Profiles            |
-| discovery-registration | Add Eureka Service Discovery                     |
+| Branch                 | Feature                                      |
+| ---------------------- | -------------------------------------------- |
+| master                 | Spring-Web REST API                          |
+| logging                | Configure log4j2 Logging and Zipkin          |
+| test-junit             | Unit and Integration Tests (Java/JUnit)      |
+| test-e2e               | End-to-end API Tests (Javascript/Mocha/Chai) |
+| configuration          | Spring Configuration and Profiles            |
+| discovery-registration | Eureka Service Discovery                     |
 
 ## Build
 
