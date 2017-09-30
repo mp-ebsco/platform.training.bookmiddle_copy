@@ -17,3 +17,12 @@ swagger:
 
 book:
   includeChildrens: true
+  useStubs: false
+
+---
+
+spring:
+  profiles: local
+
+book:
+  includeChildrens: false

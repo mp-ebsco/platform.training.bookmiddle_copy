@@ -1,6 +1,7 @@
 package com.ebsco.training.bookmiddle.service;
 
 import com.ebsco.training.bookmiddle.dao.BookDao;
+import com.ebsco.training.bookmiddle.dao.BookDaoInterface;
 import com.ebsco.training.bookmiddle.dto.BookDto;
 import com.ebsco.training.bookmiddle.util.BookValidator;
 import com.sun.javafx.binding.StringFormatter;
@@ -24,7 +25,7 @@ public class BookService {
     private Boolean includeChildrens;
 
     @Autowired
-    private BookDao bookDao;
+    private BookDaoInterface bookDao;
 
     public List<BookDto> getBooks() {
         if (includeChildrens) {
