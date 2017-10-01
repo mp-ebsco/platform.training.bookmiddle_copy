@@ -12,6 +12,7 @@ The repo contains multiple branches, each focused on a feature:
 | test-e2e               | End-to-end API Tests (Javascript/Mocha/Chai) |
 | configuration          | Spring Configuration and Profiles            |
 | discovery-registration | Eureka Service Discovery                     |
+| circuit-breaker        | Hystrix Circuit Breaker                      |
 
 ## Build
 
