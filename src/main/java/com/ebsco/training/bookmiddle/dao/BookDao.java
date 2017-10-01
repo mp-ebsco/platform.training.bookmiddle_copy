@@ -1,6 +1,8 @@
 package com.ebsco.training.bookmiddle.dao;
 
 import com.ebsco.training.bookmiddle.dto.BookDto;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
@@ -28,10 +30,21 @@ public class BookDao {
         return Optional.ofNullable(booksById.remove(id));
     }
 
+    @HystrixCommand(fallbackMethod = "createBookFallback")
+    //@HystrixProperty(name = "hystrix.command.default.execution.timeout.enabled", value = "false")
     public BookDto createBook(String title, String author, String genre) {
+        // Throw and exception to simulate circuit-breaker activity
+        if (author.equals("Rush Limbaugh")) {
+            throw new RuntimeException("Author selection error");
+        }
         String id = String.valueOf(idCounter++);
         booksById.put(id, new BookDto(id, title, author, genre));
         return booksById.get(id);
+    }
+
+    @SuppressWarnings("unused")
+    private BookDto createBookFallback(String title, String author, String genre) {
+        return new BookDto("999", "How to Be a Better Person", "Seb Hunter", "Self Help");
     }
 
     public Optional<BookDto> updateBook(String id, String title, String author, String genre) {
