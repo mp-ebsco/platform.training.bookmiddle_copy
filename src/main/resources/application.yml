@@ -14,3 +14,16 @@ swagger:
     url: http://www.ebsco.com
     email: mpanson@ebsco.com
   version: 1.0.0
+
+# Enable metrics collection and DataDog reporter
+metric:
+  enabled: true
+  datadog:
+    reporter:
+      enabled: true
+
+# Enable /metrics endpoint for service
+# Often disabled since we send to DataDog
+management:
+  security:
+    enabled: false

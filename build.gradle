@@ -83,11 +83,16 @@ artifactory {
 dependencyManagement {
     imports {
         mavenBom "com.ebsco.starter:ebsco-starter-spring-boot:2.0.0.RELEASE"
+        mavenBom "com.ebsco.starter:ebsco-starter-metrics:2.0.0.RELEASE"
+    }
+    dependencies {
+        dependency "com.ebsco.common:lib-platform-shared-metric-core:1.1.1.RELEASE"
     }
 }
 
 dependencies {
     // EBSCO Libraries
+    compile('com.ebsco.common:lib-platform-shared-metric-core')
 
     // Spring-Boot dependencies
     compile('org.springframework.boot:spring-boot-starter-actuator')
