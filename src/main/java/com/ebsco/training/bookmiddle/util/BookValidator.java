@@ -1,6 +1,6 @@
 package com.ebsco.training.bookmiddle.util;
 
-import com.sun.javafx.binding.StringFormatter;
+import com.google.common.base.Strings;
 
 import javax.validation.ValidationException;
 
@@ -10,15 +10,16 @@ public class BookValidator {
         validate(title, author, genre);
 
     }
+
     public static void validate(String title, String author, String genre) {
         validate("title", title);
         validate("author", author);
         validate("author", genre);
     }
 
-    public  static void validate(String name, String value) {
-        if (value == null || value.isEmpty()) {
-            throw new ValidationException(StringFormatter.format("%s must have a value", name).getValue());
+    public static void validate(String name, String value) {
+        if (Strings.isNullOrEmpty(value)) {
+            throw new ValidationException(name + " must have a value");
         }
     }
 }
