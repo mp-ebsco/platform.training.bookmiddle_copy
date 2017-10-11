@@ -10,7 +10,6 @@ swagger:
   description: This successfully showcased Spring Boot REST API
   contact:
     name: Michael
-
     url: http://www.ebsco.com
     email: mpanson@ebsco.com
   version: 1.0.0
