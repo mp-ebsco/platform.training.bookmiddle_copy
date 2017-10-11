@@ -6,6 +6,7 @@ import com.google.common.collect.Lists;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -27,10 +28,13 @@ import static org.mockito.Mockito.when;
 public class BookControllerTest {
 
     @Autowired
-    private BookController service;
+    private BookController controller;
 
     @MockBean
     BookService bookService;
+
+    @Mock
+    BookDto bookDto;
 
     @Before
     public void setup() {
@@ -49,7 +53,7 @@ public class BookControllerTest {
         when(bookService.getBooks()).thenReturn(expectedBooks);
 
         // When
-        ResponseEntity<List<BookDto>> actualBooks = service.getBooks();
+        ResponseEntity<List<BookDto>> actualBooks = controller.getBooks();
 
         // Then
         assertThat(actualBooks, notNullValue());
@@ -64,7 +68,7 @@ public class BookControllerTest {
         when(bookService.getBooks()).thenReturn(Lists.newArrayList());
 
         // When
-        ResponseEntity<List<BookDto>> actualBooks = service.getBooks();
+        ResponseEntity<List<BookDto>> actualBooks = controller.getBooks();
 
         // Then
         assertThat(actualBooks, notNullValue());
@@ -80,7 +84,7 @@ public class BookControllerTest {
         when(bookService.deleteBook(anyString())).thenReturn(expectedBook);
 
         // When
-        ResponseEntity<Void> response = service.deleteBook("978-1-4028-9462-6");
+        ResponseEntity<Void> response = controller.deleteBook("978-1-4028-9462-6");
 
         // Then
         assertThat(response, notNullValue());
@@ -95,10 +99,48 @@ public class BookControllerTest {
         when(bookService.deleteBook(anyString())).thenReturn(expectedBook);
 
         // When
-        ResponseEntity<Void> response = service.deleteBook("978-1-4028-9462-6");
+        ResponseEntity<Void> response = controller.deleteBook("978-1-4028-9462-6");
 
         // Then
         assertThat(response, notNullValue());
         assertThat(response.getStatusCode(), is(HttpStatus.NOT_FOUND));
+    }
+
+    @Test
+    public void createBook_create() {
+        // Given a book DTO
+
+        // When
+        ResponseEntity<BookDto> resp = controller.createBook(bookDto);
+
+        // Then
+        assertThat(resp.getStatusCode().is2xxSuccessful(), is(true));
+    }
+
+    @Test
+    public void updateBook_notFound() {
+        // Given a book DTO
+        Optional<BookDto> opt = Optional.ofNullable(bookDto);
+        when(bookService.updateBook(anyString(),anyString(),anyString(),anyString())).thenReturn(opt);
+
+        // When
+        ResponseEntity<BookDto> resp = controller.update("id", bookDto);
+
+        // Then
+        assertThat(resp.getStatusCode().is2xxSuccessful(), is(true));
+        assertThat(resp.getBody(), is(bookDto));
+    }
+
+    @Test
+    public void updateBook_success() {
+        // Given a book DTO
+        Optional<BookDto> opt = Optional.empty();
+        when(bookService.updateBook(anyString(),anyString(),anyString(),anyString())).thenReturn(opt);
+
+        // When
+        ResponseEntity<BookDto> resp = controller.update("id", bookDto);
+
+        // Then
+        assertThat(resp.getStatusCode(), is(HttpStatus.NOT_FOUND));
     }
 }
