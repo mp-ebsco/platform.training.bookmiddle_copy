@@ -1,8 +1,10 @@
 # Book Middle Service
 
-Simple spring-boot spring-web API demonstrating creation of a REST Spring Boot middle service
+Training microservice demonstrating creation of a REST Spring Boot middle service
 
-The repo contains multiple branches, each focused on a feature:
+The repo contains multiple branches, each focused on a feature. 
+
+Use the diff link to see changes from master which contains the basic REST API.
 
 | Branch                                                                                                                        | Feature                                      |
 | ----------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------- |
@@ -20,9 +22,9 @@ The repo contains multiple branches, each focused on a feature:
 
 `$ gradle build`
 
-## Run
+## Run (local profile is optional)
 
-`$ gradle bootRun`
+`$ gradle [-Dspring.profiles.active=local] bootRun`
 
 ## Explore
 
