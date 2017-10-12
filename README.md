@@ -1,6 +1,6 @@
 # Book Middle Service
 
-Training microservice demonstrating creation of a REST Spring Boot middle service
+### Training project demonstrating creation of a REST Spring Boot microservice
 
 The repo contains multiple branches, each focused on a feature. 
 
