@@ -20,8 +20,9 @@ import java.util.Optional;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.when;
+
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -50,7 +51,7 @@ public class BookControllerTest {
                 new BookDto("978-1-4028-9462-6", "Grapes of Wrath", "John Steinbeck", "Fiction"),
                 new BookDto("673-1-4029-8465-3", "One Flew Over the Coockoo's Nest", "Ken Kesay", "Fiction"),
                 new BookDto("453-1-7834-3243-2", "Green Eggs and Ham", "Dr. Seuss", "Childrens"));
-        when(bookService.getBooks()).thenReturn(expectedBooks);
+        given(bookService.getBooks()).willReturn(expectedBooks);
 
         // When
         ResponseEntity<List<BookDto>> actualBooks = controller.getBooks();
@@ -65,7 +66,7 @@ public class BookControllerTest {
     public void getBooks_NoEntitiesPresent() {
 
         // Given
-        when(bookService.getBooks()).thenReturn(Lists.newArrayList());
+        given(bookService.getBooks()).willReturn(Lists.newArrayList());
 
         // When
         ResponseEntity<List<BookDto>> actualBooks = controller.getBooks();
@@ -81,7 +82,7 @@ public class BookControllerTest {
 
         // Given
         Optional<BookDto> expectedBook = Optional.of(new BookDto("978-1-4028-9462-6", "Grapes of Wrath", "John Steinbeck", "Fiction"));
-        when(bookService.deleteBook(anyString())).thenReturn(expectedBook);
+        given(bookService.deleteBook(anyString())).willReturn(expectedBook);
 
         // When
         ResponseEntity<Void> response = controller.deleteBook("978-1-4028-9462-6");
@@ -96,7 +97,7 @@ public class BookControllerTest {
 
         // Given
         Optional<BookDto> expectedBook = Optional.ofNullable(null);
-        when(bookService.deleteBook(anyString())).thenReturn(expectedBook);
+        given(bookService.deleteBook(anyString())).willReturn(expectedBook);
 
         // When
         ResponseEntity<Void> response = controller.deleteBook("978-1-4028-9462-6");
@@ -121,7 +122,7 @@ public class BookControllerTest {
     public void updateBook_notFound() {
         // Given a book DTO
         Optional<BookDto> opt = Optional.ofNullable(bookDto);
-        when(bookService.updateBook(anyString(),anyString(),anyString(),anyString())).thenReturn(opt);
+        given(bookService.updateBook(anyString(),anyString(),anyString(),anyString())).willReturn(opt);
 
         // When
         ResponseEntity<BookDto> resp = controller.update("id", bookDto);
@@ -135,7 +136,7 @@ public class BookControllerTest {
     public void updateBook_success() {
         // Given a book DTO
         Optional<BookDto> opt = Optional.empty();
-        when(bookService.updateBook(anyString(),anyString(),anyString(),anyString())).thenReturn(opt);
+        given(bookService.updateBook(anyString(),anyString(),anyString(),anyString())).willReturn(opt);
 
         // When
         ResponseEntity<BookDto> resp = controller.update("id", bookDto);
