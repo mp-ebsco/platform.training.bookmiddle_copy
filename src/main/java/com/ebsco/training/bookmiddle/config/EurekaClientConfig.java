@@ -10,18 +10,15 @@ import org.springframework.cloud.netflix.eureka.EurekaInstanceConfigBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+@ConditionalOnProperty(name="eureka.aws.registration.enabled", havingValue="true", matchIfMissing=true)
 @Configuration
 @EnableDiscoveryClient
-@ConditionalOnProperty(value="eureka.registration.enabled")
 public class EurekaClientConfig {
 
     @Value("${server.port}")
 	private int serverPort;
     
-	// TODO instead of making this dependent on yet another switch, we could simply 
-	//  always run it and make it dependent on whether the AWS_ENV environment variable is set
     @Bean
-    @ConditionalOnProperty(value="eureka.aws.registration.enabled")
     public EurekaInstanceConfigBean eurekaInstanceConfig() {
        InetUtilsProperties properties = new InetUtilsProperties();
         

@@ -1,18 +1,20 @@
 # Book Middle Service
 
-Simple spring-boot spring-web API demonstrating creation of a REST Spring Boot middle service
+Training microservice demonstrating creation of a REST Spring Boot middle service
 
 The repo contains multiple branches, each focused on a feature:
 
-| Branch                                                                                                                        | Feature                                      |
-| ----------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------- |
-| master                                                                                                                        | Spring-Web REST API                          |
-| logging - [diff](https://github.com/mp-ebsco/platform.training.bookmiddle_epam/compare/logging)                               | Configure log4j2 Logging and Zipkin/Sleuth   | 
-| test-junit - [diff](https://github.com/mp-ebsco/platform.training.bookmiddle_epam/compare/test-junit)                         | Unit and Integration Tests (Java/JUnit)      |
-| test-e2e - [diff](https://github.com/mp-ebsco/platform.training.bookmiddle_epam/compare/test-e2e)                             | End-to-end API Tests (Javascript/Mocha/Chai) |
-| configuration - [diff](https://github.com/mp-ebsco/platform.training.bookmiddle_epam/compare/configuration)                   | Spring Configuration and Profiles            |
-| discovery-registration - [diff](https://github.com/mp-ebsco/platform.training.bookmiddle_epam/compare/discovery-registration) | Eureka Service Discovery                     |
-| circuit-breaker - [diff](https://github.com/mp-ebsco/platform.training.bookmiddle_epam/compare/circuit-breaker)               | Hystrix Circuit Breaker                      |
+| Branch                                                                                                                  | Feature                                      |
+| ----------------------------------------------------------------------------------------------------------------------- | -------------------------------------------- |
+| master                                                                                                                  | Spring-Web REST API                          |
+| logging - [diff](https://github.com/EBSCOIS/platform.training.bookmiddle/compare/logging)                               | Configure log4j2 Logging and Zipkin/Sleuth   | 
+| test-junit - [diff](https://github.com/EBSCOIS/platform.training.bookmiddle/compare/test-junit)                         | Unit and Integration Tests (Java/JUnit)      |
+| test-e2e - [diff](https://github.com/EBSCOIS/platform.training.bookmiddle/compare/test-e2e)                             | End-to-end API Tests (Javascript/Mocha/Chai) |
+| configuration - [diff](https://github.com/EBSCOIS/platform.training.bookmiddle/compare/configuration)                   | Spring Configuration and Profiles            |
+| discovery-registration - [diff](https://github.com/EBSCOIS/platform.training.bookmiddle/compare/discovery-registration) | Eureka Service Discovery                     |
+| circuit-breaker - [diff](https://github.com/EBSCOIS/platform.training.bookmiddle/compare/circuit-breaker)               | Hystrix Circuit Breaker                      |
+| metrics - [diff](https://github.com/EBSCOIS/platform.training.bookmiddle/compare/metrics)                               | Metrics Endpoint and Instrumentation         |
+| final - [diff](https://github.com/EBSCOIS/platform.training.bookmiddle/compare/final)                                   | All branches merged into final project       |
 
 ## Build
 
@@ -20,8 +22,8 @@ The repo contains multiple branches, each focused on a feature:
 
 ## Run
 
-`$ gradle bootRun`
+`$ gradle -Dspring.profiles.active=local bootRun`
 
 ## Explore
 
-Navigate to http://localhost:8080/books from a browser or Postman.
+Go to http://localhost:8080/books from a browser or Postman.
