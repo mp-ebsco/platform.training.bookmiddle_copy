@@ -28,4 +28,4 @@ Use the diff link to see changes from master which contains the basic REST API.
 
 ## Explore
 
-Navigate to http://localhost:8080/books from a browser or Postman.
+Go to http://localhost:8080/books from a browser or Postman.
