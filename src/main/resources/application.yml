@@ -5,6 +5,9 @@ spring:
   jackson:
     default-property-inclusion: non_null
 
+server:
+  port: ${service.port:8080}
+
 swagger:
   title: BookMiddle Service REST APIs
   description: This successfully showcased Spring Boot REST API
@@ -17,6 +20,11 @@ swagger:
 book:
   includeChildrens: true
   useStubs: false
+  stubSettings:
+    number: 5
+    staticAuthor: "Author McBook"
+    staticTitle: "Test Book"
+    staticGenre: "Training"
 
 ---
 
@@ -26,8 +34,3 @@ spring:
 book:
   includeChildrens: false
   useStubs: true
-  stubSettings:
-    number: 5
-    staticAuthor: "Author McBook"
-    staticTitle: "Test Book"
-    staticGenre: "Training"
