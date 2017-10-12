@@ -1,5 +1,11 @@
 package com.ebsco.training.bookmiddle.controller;
 
+import com.codahale.metrics.Counter;
+import com.codahale.metrics.Histogram;
+import com.codahale.metrics.annotation.Gauge;
+import com.codahale.metrics.annotation.Metered;
+import com.codahale.metrics.annotation.Metric;
+import com.codahale.metrics.annotation.Timed;
 import com.ebsco.training.bookmiddle.dto.BookDto;
 import com.ebsco.training.bookmiddle.service.BookService;
 import io.swagger.annotations.Api;
@@ -9,6 +15,8 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,8 +34,17 @@ import java.util.Optional;
 @Api("v1 - book")
 public class BookController {
 
+    private static final Logger logger = LoggerFactory.getLogger(BookController.class);
+
     @Autowired
     private BookService bookService;
+
+    @Metric
+    private Counter getBookByIdCounter;
+
+    @Metric
+    private Histogram getBookByIdSize;
+
 
     @RequestMapping(method = RequestMethod.GET)
     @ApiOperation(value = "Get All Books")
@@ -41,8 +58,12 @@ public class BookController {
             @ApiResponse(code = 404, message = "NOT_FOUND"),
             @ApiResponse(code = 500, message = "INTERNAL SERVER ERROR")
     })
+    @Metered(name="getBooksMeter")
+    @Timed
     public ResponseEntity<List<BookDto>> getBooks() {
-        return new ResponseEntity(bookService.getBooks(), HttpStatus.OK);
+        List<BookDto> books = bookService.getBooks();
+        logger.debug("Get Books endpoint returning: {} books", books.size());
+        return new ResponseEntity(books, HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{id}")
@@ -58,8 +79,10 @@ public class BookController {
             @ApiResponse(code = 500, message = "INTERNAL SERVER ERROR")
     })
     public ResponseEntity<BookDto> getBookById(@PathVariable("id") @ApiParam(value = "Unique identifier", example = "9") String id) {
+        getBookByIdCounter.inc();
         Optional<BookDto> book = bookService.getBookById(id);
         if (book.isPresent()) {
+            getBookByIdSize.update(book.get().getTitle().length());
             return new ResponseEntity<BookDto>(book.get(), HttpStatus.OK);
         } else {
             return new ResponseEntity<BookDto>(HttpStatus.NOT_FOUND);
@@ -120,5 +143,10 @@ public class BookController {
 
         Optional<BookDto> deletedBook = bookService.deleteBook(id);
         return new ResponseEntity(deletedBook.isPresent() ? HttpStatus.OK : HttpStatus.NOT_FOUND);
+    }
+
+    @Gauge
+    public Integer getNumberOfBooks() {
+        return bookService.getBooks().size();
     }
 }

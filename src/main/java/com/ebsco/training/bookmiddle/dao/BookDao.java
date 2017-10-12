@@ -3,6 +3,8 @@ package com.ebsco.training.bookmiddle.dao;
 import com.ebsco.training.bookmiddle.dto.BookDto;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
@@ -12,8 +14,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+// Use either @Profile or @ConditionalOnProperty to control which implementation Spring loads
+//@Profile("!local")
+@ConditionalOnProperty(value="book.useStubs", havingValue="false", matchIfMissing = true)
 @Repository
-public class BookDao {
+public class BookDao implements BookDaoInterface {
 
     private Map<String, BookDto> booksById = new HashMap();
     private Integer idCounter = 1;

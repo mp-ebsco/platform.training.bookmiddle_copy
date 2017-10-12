@@ -1,6 +1,7 @@
 package com.ebsco.training.bookmiddle.service;
 
 import com.ebsco.training.bookmiddle.dao.BookDao;
+import com.ebsco.training.bookmiddle.dao.BookDaoInterface;
 import com.ebsco.training.bookmiddle.dto.BookDto;
 import com.ebsco.training.bookmiddle.util.BookValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,7 @@ import java.util.Optional;
 public class BookService {
 
     @Autowired
-    private BookDao bookDao;
+    private BookDaoInterface bookDao;
 
     public List<BookDto> getBooks() {
         return bookDao.getBooks();

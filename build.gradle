@@ -40,6 +40,9 @@ plugins {
     // JFrog Artifactory plugins
     id "com.jfrog.artifactory" version "4.4.0"
     id 'org.springframework.boot' version '1.5.6.RELEASE'
+
+    // Test Coverage
+    id "jacoco"
 }
 
 // Compilation settings
@@ -84,15 +87,28 @@ artifactory {
 dependencyManagement {
     imports {
         mavenBom "com.ebsco.starter:ebsco-starter-spring-boot:2.0.0.RELEASE"
+        mavenBom "com.ebsco.starter:ebsco-starter-logging:2.0.0.RELEASE"
+        mavenBom "com.ebsco.starter:ebsco-starter-metrics:2.0.0.RELEASE"
+        mavenBom "org.springframework.cloud:spring-cloud-netflix:1.3.4.RELEASE"
+    }
+    dependencies {
+        dependency "com.ebsco.common:lib-platform-shared-logging-core:1.3.4.RELEASE"
+        dependency "com.ebsco.common:lib-platform-shared-metric-core:1.1.1.RELEASE"
     }
 }
 
 dependencies {
     // EBSCO Libraries
+    compile('com.ebsco.common:lib-platform-shared-logging-core')
+    compile('com.ebsco.common:lib-platform-shared-metric-core')
 
     // Spring-Boot dependencies
     compile('org.springframework.boot:spring-boot-starter-actuator')
     compile('org.springframework.boot:spring-boot-starter-web')
+    compile('org.springframework.boot:spring-boot-starter-log4j2')
+
+    // Spring-Cloud dependencies
+    compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-eureka'
 
     // Swagger dependencies
     compile group:'io.springfox', name: 'springfox-swagger2', 	version:"${project.ext['swaggerVersion']}", transitive: true
@@ -103,14 +119,49 @@ dependencies {
     compile group: 'com.fasterxml.jackson.datatype', 	name: 'jackson-datatype-jdk8', 			version: "${project.ext['jacksonVersion']}", transitive: true
     compile group: 'com.fasterxml.jackson.datatype', 	name: 'jackson-datatype-jsr310',		version: "${project.ext['jacksonVersion']}", transitive: true
 
+    testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: "${springBootVersion}"
+    testCompile group: 'com.github.tomakehurst', name: 'wiremock-standalone', version: '2.8.0'
+
     // Spring Cloud Hystrix
     compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-hystrix',           version: "${springCloudVersion}"
     compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-hystrix-dashboard', version: "${springCloudVersion}"
 }
 
+configurations.all {
+    exclude group: "org.springframework.boot", module: "spring-boot-starter-logging"
+    exclude group: "ch.qos.logback", module: "logback-classic"
+}
+
+configurations {
+    runtime.exclude group: "ch.qos.logback", module: "logback-classic"
+}
+
 bootRun {
     // support passing -Dsystem.property=value to bootRun task
     systemProperties = System.properties
+}
+
+jacocoTestReport {
+    dependsOn test
+    afterEvaluate {
+        classDirectories = files(classDirectories.files.collect {
+            fileTree(dir: it,
+                    // Exclude BookApplication.java since it doesn't contain meaningful code
+                    exclude: ['**/BookApplication.class'])
+        })
+    }
+}
+
+jacocoTestCoverageVerification {
+    dependsOn test
+    violationRules {
+        rule {
+            element = 'PACKAGE'
+            limit {
+                minimum = 0.25
+            }
+        }
+    }
 }
 
 run{

@@ -5,6 +5,9 @@ spring:
   jackson:
     default-property-inclusion: non_null
 
+server:
+  port: ${service.port:8080}
+
 swagger:
   title: BookMiddle Service REST APIs
   description: This successfully showcased Spring Boot REST API
@@ -13,3 +16,64 @@ swagger:
     url: http://www.ebsco.com
     email: mpanson@ebsco.com
   version: 1.0.0
+
+eureka:
+  instance:
+    # This is the Eureka VIP (virtual IP, like a DNS name for addressability during discovery)
+    instanceId: ${spring.application.name}
+    prefer-ip-address: true
+  client:
+    registerWithEureka: true
+    fetchRegistry: false
+    serviceUrl:
+      defaultZone: http://eureka.vpca.us-east-1.eis-delivery${AWS_ENV}.cloud:8761/eureka/
+  aws:
+    registration:
+      enabled: true
+
+# Enable metrics collection and DataDog reporter
+metric:
+  enabled: true
+  datadog:
+    reporter:
+      enabled: true
+
+# Enable /metrics endpoint for service
+# Often disabled since we send to DataDog
+management:
+  security:
+    enabled: false
+
+application:
+  market: ${APP_MARKET:platform}
+  domain: ${APP_DOMAIN:training}
+  subenv: ${APP_SUB_ENV:subenv}
+  environment: ${AWS_ENV:local}
+  containerId: ${HOSTNAME:container}
+  transactionIdHeader: "TRANSACTION_ID"
+
+book:
+  includeChildrens: true
+  useStubs: false
+  stubSettings:
+    number: 5
+    staticAuthor: "Author McBook"
+    staticTitle: "Test Book"
+    staticGenre: "Training"
+
+---
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${eureka.url:http://localhost:8761/eureka/}
+  aws:
+    registration:
+      enabled: false
+
+spring:
+  profiles: local
+
+book:
+  includeChildrens: false
+  useStubs: true
