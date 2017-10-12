@@ -5,6 +5,9 @@ spring:
   jackson:
     default-property-inclusion: non_null
 
+server:
+  port: ${service.port:8080}
+
 swagger:
   title: BookMiddle Service REST APIs
   description: This successfully showcased Spring Boot REST API
