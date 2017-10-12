@@ -4,9 +4,9 @@ Training microservice demonstrating creation of a REST Spring Boot middle servic
 
 The repo contains multiple branches, each focused on a feature:
 
-| Branch                                                                                                                  | Feature                                      |
-| ----------------------------------------------------------------------------------------------------------------------- | -------------------------------------------- |
-| master                                                                                                                  | Spring-Web REST API                          |
+| Branch                                                                                                                        | Feature                                      |
+| ----------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------- |
+| master                                                                                                                        | Spring-Web REST API                          |
 | logging - [diff](https://github.com/mp-ebsco/platform.training.bookmiddle_copy/compare/logging)                               | Configure log4j2 Logging and Zipkin/Sleuth   | 
 | test-junit - [diff](https://github.com/mp-ebsco/platform.training.bookmiddle_copy/compare/test-junit)                         | Unit and Integration Tests (Java/JUnit)      |
 | test-e2e - [diff](https://github.com/mp-ebsco/platform.training.bookmiddle_copy/compare/test-e2e)                             | End-to-end API Tests (Javascript/Mocha/Chai) |
